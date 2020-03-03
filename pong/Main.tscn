@@ -1,0 +1,100 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://images/paddle.png" type="Texture" id=1]
+[ext_resource path="res://images/ball.png" type="Texture" id=2]
+[ext_resource path="res://Main.gd" type="Script" id=3]
+[ext_resource path="res://P1.gd" type="Script" id=4]
+[ext_resource path="res://P2.gd" type="Script" id=5]
+[ext_resource path="res://ball.gd" type="Script" id=6]
+[ext_resource path="res://images/background.png" type="Texture" id=7]
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=8]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 10.4067, 50.4937 )
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 10.7051, 50.369 )
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 7.53931, 7.63025 )
+
+[node name="Main" type="Node"]
+script = ExtResource( 3 )
+
+[node name="Sprite2" type="Sprite" parent="."]
+position = Vector2( 513.751, 303.851 )
+scale = Vector2( 2.05808, 3.04405 )
+texture = ExtResource( 7 )
+
+[node name="P1" type="Area2D" parent="."]
+position = Vector2( 30, 300 )
+space_override = 1
+gravity = 0.0
+linear_damp = 0.0
+script = ExtResource( 4 )
+
+[node name="Sprite" type="AnimatedSprite" parent="P1"]
+frames = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="P1"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="P2" type="Area2D" parent="."]
+position = Vector2( 995, 300 )
+script = ExtResource( 5 )
+
+[node name="Sprite" type="AnimatedSprite" parent="P2"]
+frames = SubResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="P2"]
+shape = SubResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Ball" type="Area2D" parent="."]
+position = Vector2( 512.5, 300 )
+script = ExtResource( 6 )
+
+[node name="Sprite" type="AnimatedSprite" parent="Ball"]
+frames = SubResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball"]
+shape = SubResource( 6 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+
+[node name="HUD" parent="." instance=ExtResource( 8 )]
+margin_right = 1.0
+[connection signal="area_entered" from="P1" to="Ball" method="_on_P1_area_entered"]
+[connection signal="area_entered" from="P2" to="Ball" method="_on_P2_area_entered"]
